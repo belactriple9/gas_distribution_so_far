@@ -35,7 +35,7 @@
             for (let i = 0; i < data.length; i++) {
                 sum += data[i].amount;
             }
-            let left = 10_000_000 - sum;
+            let left = 10_000_000 - sum + 500_000; //10 million starting tokens, 500k bonus tokens for black friday event
             const el = document.getElementById("number");
             if (el) {
                 el.innerHTML = `${left.toLocaleString()}`;
