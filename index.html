@@ -21,8 +21,14 @@
     <div class="container">
         <div class="content">
             <div>
-                <p class="text">Number of 1INCH left for the gas refund campaign</p>
+                <p class="text">Gas Refund Campaign 1 Remaining tokens</p>
                 <p class="number transparent" id="number">0</p>
+            </div>
+        </div>
+        <div class="content">
+            <div>
+                <p class="text">Gas Refund Campaign 2 Remaining tokens</p>
+                <p class="number transparent" id="number_2">0</p>
             </div>
         </div>
         <footer>By <a class="handle" href="https://twitter.com/1inch"> @1inch</a> <span class="source">(<a
@@ -31,17 +37,54 @@
     </div>
     <script>
         function handleData(data) {
-            let sum = 0;
+            let sum_total = 0;
+            // calculate sum of all tokens deposited
             for (let i = 0; i < data.length; i++) {
-                sum += data[i].amount;
+                sum_total += data[i].amount;
             }
-            let left = 9_155_488.522 - sum + 500_000 + //10 million starting tokens, 500k bonus tokens for black friday event
-                10_000 + 10_000 + //10k for each defi racer tournament
-                10_000_000; // 10 million for the second round
+
+            // variables
+            const round_1_total = 10_000_000 + 500_000 + 10_000 + 10_000; //10 million starting tokens, 500k bonus tokens for black friday event, 10k for each defi racer tournament
+            const round_2_total = 10_000_000; // 10 million for the second round
+
+            let sum_1;
+            let sum_2;
+
+            // logic
+            if(sum_total > round_1_total)
+            {
+                sum_1 = round_1_total;
+                sum_total = sum_total - round_1_total;
+            }
+            else {
+                sum_1 = sum_total;
+                sum_total = sum_total - sum_1;
+            }
+
+            if(sum_total > round_2_total)
+            {
+                sum_2 = round_2_total;
+                sum_total = sum_total - round_2_total;
+            }
+            else {
+                sum_2 = sum_total;
+                sum_total = sum_total - sum_2;
+            }
+
+ 
+
+            let left_round_1 = round_1_total - sum_1; 
+            let left_round_2 = round_2_total - sum_2; 
+
             const el = document.getElementById("number");
+            const el_2 = document.getElementById("number_2");
             if (el) {
-                el.innerHTML = `${left.toLocaleString()}`;
+                el.innerHTML = `${left_round_1.toLocaleString()}`;
                 el.classList.remove("transparent")
+            }
+            if (el_2) {
+                el_2.innerHTML = `${left_round_2.toLocaleString()}`;
+                el_2.classList.remove("transparent")
             }
         }
 
